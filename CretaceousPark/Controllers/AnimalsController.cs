@@ -22,10 +22,56 @@ namespace CretaceousPark.Controllers
 
     // GET api/animals
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Animal>>> Get()
+    public async Task<ActionResult<IEnumerable<Animal>>> Get(string species, string name, int minimumAge)
     {
-      return await _db.Animals.ToListAsync();
+      IQueryable<Animal> query = _db.Animals.AsQueryable();
+
+      if (species != null)
+      {
+        query = query.Where(entry => entry.Species == species);
+      }
+
+      if (name != null)
+      {
+        query = query.Where(entry => entry.Name == name);
+      }
+
+      if (minimumAge > 0)
+      {
+        query = query.Where(entry => entry.Age >= minimumAge);
+      }
+
+      return await query.ToListAsync();
     }
+
+
+/* ***Lsn 8's listed version of updated GET method for 'Non-string Parameters' is Below (NOTE changed Modifier after 'async' on Ln52). [My version (see above/preceeding method) doesn't change the 3rd method Modifier, yet it yields the expect same results in Postman as the Lesson expects... 
+    So that's a Question I now have: if both versions work, what's the reason for changing that 3rd Modifier (if it's on purpose and not a Bug)??] 
+*/
+/*
+    // GET api/animals
+    [HttpGet]
+    public async Task<List<Animal>> Get(string species, string name, int minimumAge)
+    {
+      IQueryable<Animal> query = _db.Animals.AsQueryable();
+
+      if (species != null)
+      {
+        query = query.Where(entry => entry.Species == species);
+      }
+
+      if (name != null)
+      {
+        query = query.Where(entry => entry.Name == name);
+      }
+
+      if (minimumAge > 0)
+      {
+        query = query.Where(entry => entry.Age >= minimumAge);
+      }
+
+      return await query.ToListAsync();
+    } */
 
     // POST api/animals
     [HttpPost]
