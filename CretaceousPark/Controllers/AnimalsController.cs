@@ -78,6 +78,16 @@ namespace CretaceousPark.Controllers
       return NoContent();
     }
 
+    // POST api/animals
+    [HttpPost]
+    public async Task<ActionResult<Animal>> Post(Animal animal)
+    {
+      _db.Animals.Add(animal);
+      await _db.SaveChangesAsync();
+
+      return CreatedAtAction("Post", new { id = animal.AnimalId }, animal);
+    }
+
     // DELETE: api/Animals/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAnimal(int id)
