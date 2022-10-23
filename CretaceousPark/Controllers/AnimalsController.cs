@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CretaceousPark.Models;
@@ -76,16 +79,6 @@ namespace CretaceousPark.Controllers
       }
 
       return NoContent();
-    }
-
-    // POST api/animals
-    [HttpPost]
-    public async Task<ActionResult<Animal>> Post(Animal animal)
-    {
-      _db.Animals.Add(animal);
-      await _db.SaveChangesAsync();
-
-      return CreatedAtAction("Post", new { id = animal.AnimalId }, animal);
     }
 
     // DELETE: api/Animals/5
